@@ -11,12 +11,34 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-    public function response($code = 0, $data = [], $msg = '请求成功')
+    /**
+     * 常见响应码和响应信息
+     * @var array
+     */
+    protected $commonCodeToMsg = [
+        -1 => '请求失败',
+        0 => '请求成功',
+        10 => '新增成功',
+        20 => '更新成功',
+        30 => '删除成功',
+    ];
+
+    /**
+     * 统一响应格式
+     * @param int $code
+     * @param array $data
+     * @param string $msg
+     * @return array
+     */
+    protected function response($code = 0, $data = [], $msg = '')
     {
+        $msg = !empty($msg) ? $msg :
+            (isset($this->commonCodeToMsg[$code]) ? $this->commonCodeToMsg[$code] : '未知信息');
+
         return [
             'code' => $code,
-            'data' => $data,
             'msg' => $msg,
+            'data' => $data,
         ];
     }
 }

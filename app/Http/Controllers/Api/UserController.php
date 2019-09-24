@@ -10,6 +10,11 @@ use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
+    /**
+     * 登录
+     * @param Request $request
+     * @return array
+     */
     public function login(Request $request)
     {
         //  表单验证
@@ -33,7 +38,7 @@ class UserController extends Controller
             return $this->response(-1, [], '账号或密码不正确');
         }
 
-        $user_session = [
+        $userInfo = [
             'id' => $user->id,
             'account' => $user->account,
             'type' => $user->type,
@@ -41,9 +46,36 @@ class UserController extends Controller
 
         //  缓存用户数据
         session([
-            'user' => $user_session
+            'user' => $userInfo
         ]);
 
         return $this->response(0, [], '登陆成功');
+    }
+
+    /**
+     * 登出
+     * @param Request $request
+     * @return array
+     */
+    public function logout(Request $request)
+    {
+        if (session('user')) {
+            $request->session()->forget('user');
+        }
+
+        return $this->response(0, [], '注销成功');
+    }
+
+    //  生成假用户
+    public function storeDemo()
+    {
+        $user = User::firstOrNew(['account' => 'zhonghang']);
+        $user->account = 'zhonghang';
+        $user->nickname = '钟航';
+        $user->password = Hash::make('123456');
+        $user->type = 1;
+        $user->save();
+
+        return $this->response(0);
     }
 }

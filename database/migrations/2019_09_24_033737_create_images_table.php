@@ -15,6 +15,7 @@ class CreateImagesTable extends Migration
     {
         Schema::create('images', function (Blueprint $table) {
             $table->increments('id');
+            $table->unsignedInteger('user_id')->default(0)->comment('用户id');
             $table->string('path')->nullable()->comment('图片完整url');
             $table->timestamps();
             $table->softDeletes();
