@@ -16,11 +16,8 @@ class Controller extends BaseController
      * @var array
      */
     protected $commonCodeToMsg = [
-        -1 => '请求失败',
         0 => '请求成功',
-        10 => '新增成功',
-        20 => '更新成功',
-        30 => '删除成功',
+        -1 => '请求失败',
     ];
 
     /**

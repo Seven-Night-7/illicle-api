@@ -18,7 +18,7 @@ Route::post('login', 'Api\UserController@login');
 //  注销
 Route::get('logout', 'Api\UserController@logout');
 
-//  ...
+//  测试：生成用户
 Route::get('zh/test', 'Api\UserController@storeDemo');
 
 Route::group([
@@ -31,6 +31,7 @@ Route::group([
     //  - 违章车辆
     Route::get('illegal-vehicles', 'Api\IllegalVehicleController@index');
     Route::get('illegal-vehicle/{id}', 'Api\IllegalVehicleController@show');
+    Route::post('illegal-vehicle', 'Api\IllegalVehicleController@store');
 
     //  - 上传图片
     Route::post('upload-image', 'Api\ImageController@upload');

@@ -33,7 +33,7 @@ class IllegalVehicleController extends Controller
         $user = session('user');
         $data = $validator->validate();
 
-        $illegalVehicles = IllegalVehicle::with('detachments','users')
+        $illegalVehicles = IllegalVehicle::with(['detachments','users'])
             ->where('user_id', $user['id']);
 
         //  中队名筛选
@@ -122,7 +122,7 @@ class IllegalVehicleController extends Controller
         ]);
         $illegalVehicle->save();
 
-        return $this->response(10);
+        return $this->response(0);
     }
 
     /**
@@ -132,7 +132,7 @@ class IllegalVehicleController extends Controller
      */
     public function show($id)
     {
-        $illegalVehicle = IllegalVehicle::with('detachments','users')
+        $illegalVehicle = IllegalVehicle::with(['detachments','users'])
             ->find($id);
         if (!$illegalVehicle) {
             return $this->response(-1, [], '违章车辆不存在');

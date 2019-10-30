@@ -31,7 +31,7 @@ class DetachmentController extends Controller
         set_model_data($detachment, $data);
         $detachment->save();
 
-        return $this->response(10);
+        return $this->response(0);
     }
 
     /**
