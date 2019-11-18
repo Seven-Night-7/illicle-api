@@ -55,7 +55,7 @@ class IllegalVehicleController extends Controller
             $illegalVehicles->whereBetween('created_at', [$data['start_at'], $data['end_at']]);
         }
 
-        $illegalVehicles = $illegalVehicles->paginate()
+        $illegalVehicles = $illegalVehicles->paginate(get_per_page())
             ->toArray();
 
         array_with($illegalVehicles, [
@@ -63,23 +63,24 @@ class IllegalVehicleController extends Controller
             ['users', 'nickname', 'nickname']
         ], true);
 
-        //  首张缩略图
-        $image_ids = collect($illegalVehicles['data'])
+        //  获取图片
+        $imageIds = collect($illegalVehicles['data'])
             ->pluck('image_ids')
             ->map(function ($item) {
-                $temp = explode(',', $item);
-                return !empty($temp[0]) ? $temp[0] : 0;
+                return explode(',', $item);
             })
+            ->collapse()
             ->unique()
             ->values()
             ->toArray();
-        $images = Image::whereIn('id', $image_ids)
+        $images = Image::whereIn('id', $imageIds)
             ->pluck('path', 'id')
             ->toArray();
         array_walk($illegalVehicles['data'], function (&$item) use ($images) {
             $temp = explode(',', $item['image_ids']);
-            $item['image'] = !empty($temp[0]) ?
-                (isset($images[$temp[0]]) ? $images[$temp[0]] : '') : '';
+            $item['images'] = collect($temp)->map(function ($image_id) use ($images) {
+                return isset($images[$image_id]) ? $images[$image_id] : '';
+            });
         });
 
         return $this->response(0, $illegalVehicles);

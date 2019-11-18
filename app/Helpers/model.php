@@ -46,3 +46,9 @@ function array_with(&$array, array $params, $isUnset = false)
 
     return true;
 }
+
+//  获取单页显示数量
+function get_per_page()
+{
+    return app('request')->get('per_page') ? app('request')->get('per_page') : 15;
+}
