@@ -30,7 +30,7 @@ class IllegalVehicleController extends Controller
             return $this->response(-1, [], $validator->errors()->first());
         }
 
-        $user = session('user');
+        $user = get_user_info();
         $data = $validator->validate();
 
         $illegalVehicles = IllegalVehicle::with(['detachments','users'])
@@ -103,7 +103,7 @@ class IllegalVehicleController extends Controller
             return $this->response(-1, [], $validator->errors()->first());
         }
 
-        $user = session('user');
+        $user = get_user_info();
         $data = $validator->validate();
 
         if (!Detachment::find($data['detachment_id'])) {

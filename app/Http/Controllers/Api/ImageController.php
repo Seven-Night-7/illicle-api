@@ -10,12 +10,12 @@ use Illuminate\Support\Facades\Validator;
 class ImageController extends Controller
 {
     /**
-     * 上传图片
+     * 新增/上传图片
      * @param Request $request
      * @param ImageUploadHandler $uploader
      * @return array
      */
-    public function upload(Request $request, ImageUploadHandler $uploader)
+    public function store(Request $request, ImageUploadHandler $uploader)
     {
         //  表单验证
         $validator = Validator::make($request->file(), [
@@ -26,7 +26,7 @@ class ImageController extends Controller
             return $this->response(-1, [], $validator->errors()->first());
         }
 
-        $user = session('user');
+        $user = get_user_info();
         $data = $validator->validate();
 
         $image = $uploader->save($data['image'], 'default', $user['id']);

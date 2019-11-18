@@ -38,16 +38,8 @@ class UserController extends Controller
             return $this->response(-1, [], '账号或密码不正确');
         }
 
-        $userInfo = [
-            'id' => $user->id,
-            'account' => $user->account,
-            'type' => $user->type,
-        ];
-
         //  缓存用户数据
-        session([
-            'user' => $userInfo
-        ]);
+        set_user_info($user);
 
         return $this->response(0, [], '登陆成功');
     }
@@ -59,7 +51,7 @@ class UserController extends Controller
      */
     public function logout(Request $request)
     {
-        if (session('user')) {
+        if (get_user_info()) {
             $request->session()->forget('user');
         }
 

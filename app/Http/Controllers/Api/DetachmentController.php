@@ -10,6 +10,17 @@ use Illuminate\Support\Facades\Validator;
 class DetachmentController extends Controller
 {
     /**
+     * 列表
+     * @return array
+     */
+    public function index()
+    {
+        $list = Detachment::all();
+
+        return $this->response(0, $list);
+    }
+
+    /**
      * 新增
      * @param Request $request
      * @return array
@@ -32,14 +43,5 @@ class DetachmentController extends Controller
         $detachment->save();
 
         return $this->response(0);
-    }
-
-    /**
-     * 下拉列表
-     * @return array
-     */
-    public function terse()
-    {
-        return $this->response(0, Detachment::select('id','name')->get()->toArray());
     }
 }

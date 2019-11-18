@@ -25,14 +25,11 @@ Route::group([
     'middleware' => ['api_check_login']
 ], function () {
     //  - 交警中队
-    Route::post('add-detachment', 'Api\DetachmentController@store');
-    Route::get('terse-detachments', 'Api\DetachmentController@terse');
+    Route::resource('detachments', 'Api\DetachmentController');
 
     //  - 违章车辆
-    Route::get('illegal-vehicles', 'Api\IllegalVehicleController@index');
-    Route::get('illegal-vehicle/{id}', 'Api\IllegalVehicleController@show');
-    Route::post('illegal-vehicle', 'Api\IllegalVehicleController@store');
+    Route::resource('illegal-vehicles', 'Api\IllegalVehicleController');
 
-    //  - 上传图片
-    Route::post('upload-image', 'Api\ImageController@upload');
+    //  - 图片
+    Route::post('images', 'Api\ImageController@store');
 });

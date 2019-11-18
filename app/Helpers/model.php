@@ -10,7 +10,7 @@ function set_model_data($model, $array)
 
 //  遍历数组加入关联模型的某个字段
 //  场景：实现在Eloquent模型中使用paginate()方法后关联模型的数据转换
-function array_with(&$array, array $params, $is_unset = false)
+function array_with(&$array, array $params, $isUnset = false)
 {
     if (!$params || !$array || !isset($array['data'])) {
         return false;
@@ -28,12 +28,18 @@ function array_with(&$array, array $params, $is_unset = false)
         $param[3] = isset($param[3]) ? $param[3] : '';
     });
 
-    array_walk($array['data'], function (&$value) use ($params, $is_unset) {
+    array_walk($array['data'], function (&$value) use ($params, $isUnset) {
         foreach ($params as $param) {
             $value[$param[2]] = isset($value[$param[0]]) ? $value[$param[0]][$param[1]] : $param[3];
-            //  是否释放关联模型对应的数据
-            if ($is_unset && isset($value[$param[0]])) {
-                unset($value[$param[0]]);
+        }
+
+        if ($isUnset) {
+            $relationNames = array_unique(array_column($params, 0));
+            foreach ($relationNames as $relationName) {
+                //  是否释放关联模型对应的数据
+                if (isset($relationName)) {
+                    unset($value[$relationName]);
+                }
             }
         }
     });
