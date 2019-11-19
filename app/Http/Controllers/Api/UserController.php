@@ -61,9 +61,16 @@ class UserController extends Controller
     //  生成假用户
     public function storeDemo()
     {
-        $user = User::firstOrNew(['account' => 'zhonghang']);
+        $user = new User();
         $user->account = 'zhonghang';
         $user->nickname = '钟航';
+        $user->password = Hash::make('123456');
+        $user->type = 2;
+        $user->save();
+
+        $user = new User();
+        $user->account = 'lanyulin';
+        $user->nickname = '蓝于林';
         $user->password = Hash::make('123456');
         $user->type = 1;
         $user->save();
