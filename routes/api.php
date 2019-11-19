@@ -33,3 +33,6 @@ Route::group([
     //  - 图片
     Route::post('images', 'Api\ImageController@store');
 });
+
+//  - 微信公众号
+//Route::any('test', 'Api\OfficialAccountController@test');
