@@ -44,4 +44,21 @@ class DetachmentController extends Controller
 
         return $this->response(0);
     }
+
+    /**
+     * 删除
+     * @param $id
+     * @return array
+     */
+    public function destroy($id)
+    {
+        $detachment = Detachment::find($id);
+        if (!$detachment) {
+            return $this->response(-1, [], '交警中队不存在');
+        }
+
+        $detachment->delete();
+
+        return $this->response(0);
+    }
 }

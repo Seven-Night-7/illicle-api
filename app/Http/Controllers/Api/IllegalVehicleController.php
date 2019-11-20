@@ -155,4 +155,21 @@ class IllegalVehicleController extends Controller
 
         return $this->response(0, $illegalVehicle);
     }
+
+    /**
+     * 删除
+     * @param $id
+     * @return array
+     */
+    public function destroy($id)
+    {
+        $illegalVehicle = IllegalVehicle::find($id);
+        if (!$illegalVehicle) {
+            return $this->response(-1, [], '违章车辆不存在');
+        }
+
+        $illegalVehicle->delete();
+
+        return $this->response(0);
+    }
 }
