@@ -163,6 +163,11 @@ class IllegalVehicleController extends Controller
      */
     public function destroy($id)
     {
+        $user = get_user_info();
+        if ($user['type'] != 2) {
+            return $this->response(-1, [], '非管理员无法删除');
+        }
+
         $illegalVehicle = IllegalVehicle::find($id);
         if (!$illegalVehicle) {
             return $this->response(-1, [], '违章车辆不存在');
